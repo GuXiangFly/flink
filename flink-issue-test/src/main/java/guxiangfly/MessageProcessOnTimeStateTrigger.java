@@ -76,6 +76,7 @@ public class MessageProcessOnTimeStateTrigger extends Trigger<Object, TimeWindow
                 registerTime = registerTime + updateInterval;
             }
 
+
             firstSeen.update(true);
         }
 

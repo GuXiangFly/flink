@@ -8,6 +8,7 @@ import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.windowing.RichWindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
+import org.apache.flink.streaming.runtime.operators.windowing.WindowOperator;
 import org.apache.flink.util.Collector;
 
 import java.util.Arrays;
@@ -22,24 +23,22 @@ import java.util.stream.Collectors;
  **/
 public class BdVisitHisAggrByBdIdWindowFunction extends RichWindowFunction<BdVisitHisWideBean, BdVisitHisGroupByBdIdBean, Long, TimeWindow> {
 
-
-    ValueState<Long> eventTimeSlotValueState = null;
+    ValueState<Long> eventTimeSlotValueState  = null;
 
     @Override
     public void open(Configuration parameters) throws Exception {
-        eventTimeSlotValueState = getRuntimeContext().getState(new ValueStateDescriptor<Long>("event-time-slot",  Types.LONG));
+        eventTimeSlotValueState  = getRuntimeContext().getState(new ValueStateDescriptor<Long>("event-time-slot",  Types.LONG));
     }
 
     @Override
     public void apply(Long aLong, TimeWindow window, Iterable<BdVisitHisWideBean> input, Collector<BdVisitHisGroupByBdIdBean> out) throws Exception {
         BdVisitHisGroupByBdIdBean result = new BdVisitHisGroupByBdIdBean();
+
         result.setBd_id(aLong);
         Long eventTimeSlotValue = eventTimeSlotValueState.value();
         if (eventTimeSlotValue == null) {
             return;
         }
-
-
         Set<Long> poiIdSetForVisitNumTotal = new HashSet<>();
         Set<Long> poiIdSetForVisitNum500m = new HashSet<>();
 
