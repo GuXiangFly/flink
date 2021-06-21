@@ -337,14 +337,18 @@ public abstract class AbstractKeyedStateBackend<K>
         checkNotNull(namespace, "Namespace");
 
         if (lastName != null && lastName.equals(stateDescriptor.getName())) {
-            lastState.setCurrentNamespace(namespace);
+            if (lastState.getCurrentNamespace() == null){
+                lastState.setCurrentNamespace(namespace);
+            }
             return (S) lastState;
         }
 
         InternalKvState<K, ?, ?> previous = keyValueStatesByName.get(stateDescriptor.getName());
         if (previous != null) {
             lastState = previous;
-            lastState.setCurrentNamespace(namespace);
+            if (lastState.getCurrentNamespace() == null){
+                lastState.setCurrentNamespace(namespace);
+            }
             lastName = stateDescriptor.getName();
             return (S) previous;
         }

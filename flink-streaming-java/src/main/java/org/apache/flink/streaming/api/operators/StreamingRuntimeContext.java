@@ -46,6 +46,7 @@ import org.apache.flink.runtime.taskexecutor.GlobalAggregateManager;
 import org.apache.flink.runtime.taskmanager.TaskManagerRuntimeInfo;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.graph.StreamConfig;
+import org.apache.flink.streaming.runtime.operators.windowing.WindowOperator;
 import org.apache.flink.streaming.runtime.tasks.ProcessingTimeService;
 
 import javax.annotation.Nullable;
@@ -202,6 +203,16 @@ public class StreamingRuntimeContext extends AbstractRuntimeUDFContext {
         stateProperties.initializeSerializerUnlessSet(getExecutionConfig());
         return keyedStateStore.getState(stateProperties);
     }
+
+//    public <T> ValueState<T> getPreWindowState(ValueStateDescriptor<T> stateProperties) {
+//        KeyedStateStore keyedStateStore = checkPreconditionsAndGetKeyedStateStore(stateProperties);
+//        stateProperties.initializeSerializerUnlessSet(getExecutionConfig());
+//
+//        WindowOperator.PerWindowStateStore perWindowStateStore = new WindowOperator.PerWindowStateStore(
+//                keyedStateStore,
+//                getExecutionConfig());
+//        return keyedStateStore.getState(stateProperties);
+//    }
 
     @Override
     public <T> ListState<T> getListState(ListStateDescriptor<T> stateProperties) {

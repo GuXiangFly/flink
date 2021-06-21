@@ -55,7 +55,7 @@ public abstract class AbstractRocksDBState<K, N, V> implements InternalKvState<K
     final TypeSerializer<V> valueSerializer;
 
     /** The current namespace, which the next value methods will refer to. */
-    private N currentNamespace;
+    public N currentNamespace;
 
     /** Backend that holds the actual RocksDB instance where we store state. */
     protected RocksDBKeyedStateBackend<K> backend;
@@ -120,6 +120,13 @@ public abstract class AbstractRocksDBState<K, N, V> implements InternalKvState<K
     public void setCurrentNamespace(N namespace) {
         this.currentNamespace = namespace;
     }
+
+    @Override
+    public N getCurrentNamespace(){
+        return this.currentNamespace;
+    }
+
+
 
     @Override
     public byte[] getSerializedValue(

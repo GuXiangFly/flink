@@ -63,6 +63,8 @@ public class DefaultKeyedStateStore implements KeyedStateStore {
         }
     }
 
+
+
     @Override
     public <T> ListState<T> getListState(ListStateDescriptor<T> stateProperties) {
         requireNonNull(stateProperties, "The state properties must not be null");
@@ -115,4 +117,5 @@ public class DefaultKeyedStateStore implements KeyedStateStore {
         return keyedStateBackend.getPartitionedState(
                 VoidNamespace.INSTANCE, VoidNamespaceSerializer.INSTANCE, stateDescriptor);
     }
+
 }
