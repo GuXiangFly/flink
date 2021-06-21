@@ -31,7 +31,6 @@ under the License.
 
 	<artifactId>flink-runtime_${scala.binary.version}</artifactId>
 	<name>Flink : Runtime</name>
-
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -334,6 +333,7 @@ under the License.
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 
 	<build>
 
