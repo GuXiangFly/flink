@@ -75,6 +75,11 @@ public class CompositeKeySerializationUtils {
             boolean ambiguousKeyPossible)
             throws IOException {
 
+        // If the passed namespaceSerializer does not match the namespace, it should not serialize and should not write backendState
+        // Sharing state between trigger and TimeWindow causes inconsistencies in the namespace and NamespaceSerializer
+        if ((namespaceSerializer instanceof VoidNamespaceSerializer) && !(namespace instanceof VoidNamespace)){
+            return;
+        }
         int beforeWrite = keySerializationDataOutputView.length();
         namespaceSerializer.serialize(namespace, keySerializationDataOutputView);
 

@@ -88,6 +88,7 @@ under the License.
 		<module>flink-kubernetes</module>
 		<module>flink-external-resources</module>
 		<module>tools/ci/java-ci-tools</module>
+		<module>flink-issue-test</module>
 	</modules>
 
 	<properties>
