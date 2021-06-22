@@ -327,6 +327,19 @@ public abstract class AbstractKeyedStateBackend<K>
      * @see KeyedStateBackend
      */
     @SuppressWarnings("unchecked")
+    public <N, S extends State> S getReadOnlyPartitionedState(
+            final StateDescriptor<S, ?> stateDescriptor)
+            throws Exception {
+
+        InternalKvState<K, ?, ?> readOnlyState = keyValueStatesByName.get(stateDescriptor.getName());
+
+        if (readOnlyState == null){
+            return  null;
+        }
+
+        return (S) readOnlyState;
+    }
+
     @Override
     public <N, S extends State> S getPartitionedState(
             final N namespace,
@@ -362,6 +375,7 @@ public abstract class AbstractKeyedStateBackend<K>
 
         return state;
     }
+
 
     @Override
     public void close() throws IOException {
