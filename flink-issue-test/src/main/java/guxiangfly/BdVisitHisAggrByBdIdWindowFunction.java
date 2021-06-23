@@ -2,7 +2,6 @@ package guxiangfly;
 
 
 import guxiangfly.utils.DateUtils;
-import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.configuration.Configuration;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
  **/
 public class BdVisitHisAggrByBdIdWindowFunction extends RichWindowFunction<BdVisitHisWideBean, BdVisitHisGroupByBdIdBean, Long, TimeWindow> {
 
-    ValueState<Long> eventTimeSlotValueState  = null;
 
     @Override
     public void open(Configuration parameters) throws Exception {
