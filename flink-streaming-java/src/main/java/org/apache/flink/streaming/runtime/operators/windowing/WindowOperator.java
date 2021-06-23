@@ -873,6 +873,7 @@ public class WindowOperator<K, IN, ACC, OUT, W extends Window>
             return getPartitionedState(stateDesc);
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <S extends State> S getPartitionedState(StateDescriptor<S, ?> stateDescriptor) {
             try {

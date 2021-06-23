@@ -319,13 +319,8 @@ public abstract class AbstractKeyedStateBackend<K>
         }
     }
 
-    /**
-     * TODO: NOTE: This method does a lot of work caching / retrieving states just to update the
-     * namespace. This method should be removed for the sake of namespaces being lazily fetched from
-     * the keyed state backend, or being set on the state directly.
-     *
-     * @see KeyedStateBackend
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     public <N, S extends State> S getReadOnlyPartitionedState(
             final StateDescriptor<S, ?> stateDescriptor)
@@ -340,6 +335,13 @@ public abstract class AbstractKeyedStateBackend<K>
         return (S) readOnlyState;
     }
 
+    /**
+     * TODO: NOTE: This method does a lot of work caching / retrieving states just to update the
+     * namespace. This method should be removed for the sake of namespaces being lazily fetched from
+     * the keyed state backend, or being set on the state directly.
+     *
+     * @see KeyedStateBackend
+     */
     @Override
     public <N, S extends State> S getPartitionedState(
             final N namespace,
@@ -350,18 +352,14 @@ public abstract class AbstractKeyedStateBackend<K>
         checkNotNull(namespace, "Namespace");
 
         if (lastName != null && lastName.equals(stateDescriptor.getName())) {
-            if (lastState.getCurrentNamespace() == null){
-                lastState.setCurrentNamespace(namespace);
-            }
+            lastState.setCurrentNamespace(namespace);
             return (S) lastState;
         }
 
         InternalKvState<K, ?, ?> previous = keyValueStatesByName.get(stateDescriptor.getName());
         if (previous != null) {
             lastState = previous;
-            if (lastState.getCurrentNamespace() == null){
-                lastState.setCurrentNamespace(namespace);
-            }
+            lastState.setCurrentNamespace(namespace);
             lastName = stateDescriptor.getName();
             return (S) previous;
         }

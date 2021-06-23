@@ -27,7 +27,7 @@ public class BdVisitHisAggrByBdIdWindowFunction extends RichWindowFunction<BdVis
 
     @Override
     public void open(Configuration parameters) throws Exception {
-        eventTimeSlotValueState  = getRuntimeContext().getState(new ValueStateDescriptor<Long>("event-time-slot",  Types.LONG));
+
     }
 
     @Override
@@ -35,7 +35,10 @@ public class BdVisitHisAggrByBdIdWindowFunction extends RichWindowFunction<BdVis
         BdVisitHisGroupByBdIdBean result = new BdVisitHisGroupByBdIdBean();
 
         result.setBd_id(aLong);
-        Long eventTimeSlotValue = eventTimeSlotValueState.value();
+        Long eventTimeSlotValue = getRuntimeContext().getReadOnlyStateValue(new ValueStateDescriptor<Long>(
+                "event-time-slot",
+                Types.LONG));
+
         if (eventTimeSlotValue == null) {
             return;
         }
